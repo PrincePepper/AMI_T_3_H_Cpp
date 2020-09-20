@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef TOORNAMENT_1_PrimeNumberGenerator_H_
+#define TOORNAMENT_1_PrimeNumberGenerator_H_
+
 class PrimeNumberGenerator {
 public:
     explicit PrimeNumberGenerator(int start) { start_n = start; }
@@ -25,4 +28,6 @@ private:
         } else return true;
     }
 };
+
+#endif // TOORNAMENT_1_PrimeNumberGenerator_H_
 
