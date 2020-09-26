@@ -16,10 +16,10 @@
 #include "prime_gen.h"
 
 int main() {
-    int start, num;
-    std::cin >> start >> num;
-    PrimeNumberGenerator gen(start);
-    for (int i = 0; i < num; ++i) {
-        std::cout << gen.GetNextPrime() << " ";
-    }
+  int start, num;
+  std::cin >> start >> num;
+  PrimeNumberGenerator gen(start);
+  for (int i = 0; i < num; ++i) {
+    std::cout << gen.GetNextPrime() << " ";
+  }
 }
