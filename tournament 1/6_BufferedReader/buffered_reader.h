@@ -13,15 +13,14 @@ class BufferedReader {
   }
 
   int32_t Read(char *output_buffer, int32_t buffer_len) {
-    buffer = new char[strlen(output_buffer) + 1];
     int32_t position = 0;
     int32_t package = 0;
     while (position < buffer_len && package <= stroke->PackageLen()) {
-      package += stroke->ReadPackage(buffer + position);
+      package += stroke->ReadPackage(output_buffer + position);
       position += stroke->PackageLen();
     }
     int32_t min = std::min(package, buffer_len);
-    memcpy(output_buffer, buffer, min);
+
     return min;
   }
 
