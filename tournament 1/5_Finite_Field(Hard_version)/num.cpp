@@ -1,5 +1,5 @@
 //
-// Created by semyo on 01.10.2020.
+// Created by Semen Sereda on 01.10.2020.
 //
 
 #include "num.h"

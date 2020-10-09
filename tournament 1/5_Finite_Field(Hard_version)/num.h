@@ -1,5 +1,5 @@
 //
-// Created by semyo on 01.10.2020.
+// Created by Semen Sereda on 01.10.2020.
 //
 
 #ifndef PMI_T_3_H_CPP_TOURNAMENT_1_5_FINITE_FIELD_HARD_VERSION_NUM_H_
