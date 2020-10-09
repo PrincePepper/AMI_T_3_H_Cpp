@@ -53,7 +53,6 @@ int main() {
 
     while (cin >> read_len >> expect_len) {
         std::unique_ptr<char[]> buf(new char[read_len]);
-
         int got_len = reader.Read(buf.get(), read_len);
         if (got_len != expect_len || memcmp(buf.get(), s.c_str() + cur_byte, expect_len) != 0) {
             ok = false;
