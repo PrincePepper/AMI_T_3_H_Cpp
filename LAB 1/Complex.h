@@ -11,11 +11,11 @@ class Complex {
  public:
   Complex() = default;
 
-  [[maybe_unused]] explicit Complex(double valid) {
+  explicit Complex(double valid) {
     real = valid;
   }
 
-  [[maybe_unused]] Complex(double valid, double alleged) {
+  Complex(double valid, double alleged) {
     real = valid;
     imaginary = alleged;
   }
@@ -25,10 +25,19 @@ class Complex {
     imaginary = fresh.imaginary;
   }
 
-  [[maybe_unused]] [[nodiscard]] double re() const { return real; }
-  [[maybe_unused]] [[nodiscard]] double im() const { return imaginary; }
+  [[nodiscard]] double GetReal() const {
+    return real;
+  }
+  void SetReal(double real) {
+    this->real = real;
+  }
+  [[nodiscard]] double GetImaginary() const {
+    return imaginary;
+  }
+  void SetImaginary(double imaginary) {
+    this->imaginary = imaginary;
+  }
 
-  // деструктор
   ~Complex() {
   }
 
@@ -44,7 +53,8 @@ class Complex {
 
   // умножение
   Complex operator*(const Complex &fresh) const {
-    return Complex(real * fresh.real - imaginary * fresh.imaginary, real * fresh.imaginary + imaginary * fresh.real);
+    return Complex(real * fresh.real - imaginary * fresh.imaginary,
+        real * fresh.imaginary + imaginary * fresh.real);
   }
 
   // деление
@@ -63,11 +73,14 @@ class Complex {
 
   // оператор ==
   bool operator==(const Complex &fresh) const {
-
-    if (this->real == fresh.real && this->imaginary == fresh.imaginary)
+    if (std::fabs(this->real - fresh.real) <
+        std::numeric_limits<double>::epsilon()
+        && std::fabs(this->imaginary - fresh.imaginary) <
+            std::numeric_limits<double>::epsilon()) {
       return true;
-    else
+    } else {
       return false;
+    }
   }
 
   // оператор !=
@@ -95,7 +108,8 @@ class Complex {
     double re;
     double r = fresh.real * fresh.real + fresh.imaginary * fresh.imaginary;
     re = (this->real * fresh.real + this->imaginary * fresh.imaginary) / r;
-    this->imaginary = (this->imaginary * fresh.real - this->real * fresh.imaginary) / r;
+    this->imaginary =
+        (this->imaginary * fresh.real - this->real * fresh.imaginary) / r;
     this->real = re;
     return *this;
   }
@@ -117,12 +131,12 @@ class Complex {
 //  }
 
   // Возведение в натуральную степень
-  Complex operator^(unsigned int num) {
+  Complex operator^(unsigned int num) const {
     Complex temp;
     temp.real = this->real;
     temp.imaginary = this->imaginary;
     for (unsigned int i = 1; i < num; i++) {
-      temp=this->operator*(Complex(temp.real, temp.imaginary));
+      temp = this->operator*(Complex(temp.real, temp.imaginary));
     }
     return temp;
   }
@@ -139,21 +153,23 @@ class Complex {
     } else if (fresh.real != 0 && fresh.imaginary == 0) {
       output << fresh.real;
     } else if (fresh.real == 0) {
-      if (fresh.imaginary == 1)
+      if (fresh.imaginary == 1) {
         output << "i";
-      else if (fresh.imaginary == -1)
+      } else if (fresh.imaginary == -1) {
         output << "-i";
-      else
+      } else {
         output << fresh.imaginary << "i";
+      }
     } else {
-      if (fresh.imaginary == 1)
+      if (fresh.imaginary == 1) {
         output << "(" << fresh.real << "i)";
-      else if (fresh.imaginary == -1)
+      } else if (fresh.imaginary == -1) {
         output << "(" << fresh.real << "-i)";
-      else if (fresh.imaginary > 0)
+      } else if (fresh.imaginary > 0) {
         output << "(" << fresh.real << "+" << fresh.imaginary << "i)";
-      else
+      } else {
         output << "(" << fresh.real << fresh.imaginary << "i)";
+      }
     }
 
     return output;

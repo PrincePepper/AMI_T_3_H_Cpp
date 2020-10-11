@@ -8,10 +8,9 @@ int main() {
   Complex b(3, -3);
 
   cout << "a = " << a << "; b =" << b << endl;
-  if (a == b)
-    cout << 1 << endl;
-  else if (a != b)
+  if (a != b) {
     cout << 2 << endl;
+  }
 
   a += b;
 
@@ -28,9 +27,10 @@ int main() {
   b = -b;
   cout << a << b << endl;
   a = b;
-  cout << a<<endl;
-  b=a^3;
-  cout<<a<<b<<endl;
+  if (a == b) cout << true << endl;
+  cout << a << endl;
+  b = a ^ 3;
+  cout << a << b << endl;
 
   return 0;
 }
