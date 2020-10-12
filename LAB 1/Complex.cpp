@@ -6,7 +6,7 @@ using namespace std;
 int main() {
   Complex a(5, 2);
   Complex b(3, -3);
-
+  b = b;
   cout << "a = " << a << "; b =" << b << endl;
   if (a != b) {
     cout << 2 << endl;
@@ -16,7 +16,7 @@ int main() {
 
   cout << "a = " << a << "; b =" << b << endl;
 
-  Complex c = a - b;
+  Complex c = 5;
 
   cout << c << endl;
   cout << a + b << endl;

@@ -11,7 +11,7 @@ class Complex {
  public:
   Complex() = default;
 
-  explicit Complex(double valid) {
+  Complex(double valid) {
     real = valid;
   }
 
@@ -59,7 +59,7 @@ class Complex {
 
   // деление
   Complex operator/(const Complex &fresh) const {
-    Complex temp{};
+    Complex temp;
 
     double r = fresh.real * fresh.real + fresh.imaginary * fresh.imaginary;
     temp.real = (real * fresh.real + imaginary * fresh.imaginary) / r;
@@ -118,17 +118,6 @@ class Complex {
   Complex operator-() const {
     return Complex(-real, -imaginary);
   }
-//  Complex& operator+=(double valid,double alleged) {
-//    return *this = *this + [valid,alleged];
-//  }
-//
-//  Complex &operator-=(double valid, double alleged) {
-//    return *this = *this - [valid, alleged];
-//  }
-//
-//  Complex &operator*=(double valid, double alleged) {
-//    return *this = *this * [valid, alleged];
-//  }
 
   // Возведение в натуральную степень
   Complex operator^(unsigned int num) const {
