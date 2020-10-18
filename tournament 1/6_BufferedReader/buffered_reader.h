@@ -30,10 +30,11 @@ class BufferedReader {
     } else {
       position = 0;
     }
-    if (position != 0)
+    if (position != 0) {
       package = position;
-    else
+    } else {
       package = 0;
+    }
     return min;
   }
 
