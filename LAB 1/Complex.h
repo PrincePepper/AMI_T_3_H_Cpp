@@ -104,7 +104,7 @@ class Complex {
   }
 
   // оператор /=
-  Complex operator/=(const Complex &fresh) {
+  Complex &operator/=(const Complex &fresh) {
     double re;
     double r = fresh.real * fresh.real + fresh.imaginary * fresh.imaginary;
     re = (this->real * fresh.real + this->imaginary * fresh.imaginary) / r;
