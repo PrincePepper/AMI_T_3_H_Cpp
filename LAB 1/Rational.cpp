@@ -1,6 +1,3 @@
-//
-// Created by semyo on 23.10.2020.
-//
 #include "Rational.h"
 #include <iostream>
 using namespace std;

@@ -9,7 +9,7 @@
 #include <cmath>
 #include <algorithm>
 #include <numeric>
-#include <math.h>  //modf
+
 template<typename T>
 class Rational {
  public:
@@ -55,8 +55,8 @@ class Rational {
   }
 
   Rational operator/(const Rational<T> &r) const {
-    return Rational<T>(this->numerator * r.denominator, this->denominator * r
-        .numerator);
+    return Rational<T>(this->numerator * r.denominator, this->denominator
+        * r.numerator);
   }
   Rational operator*(const Rational &r) const {
     return Rational<T>(this->numerator * r.numerator,

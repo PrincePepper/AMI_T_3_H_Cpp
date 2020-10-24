@@ -1,5 +1,5 @@
 //
-// Created by User on 11.10.2020.
+// Library for complex numbers
 //
 #include <iostream>
 #include <cmath>
