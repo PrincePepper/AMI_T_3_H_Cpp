@@ -1,5 +1,5 @@
 //
-// Created by User on 11.10.2020.
+// Library for complex numbers
 //
 #include <iostream>
 #include <cmath>
@@ -104,7 +104,7 @@ class Complex {
   }
 
   // оператор /=
-  Complex operator/=(const Complex &fresh) {
+  Complex &operator/=(const Complex &fresh) {
     double re;
     double r = fresh.real * fresh.real + fresh.imaginary * fresh.imaginary;
     re = (this->real * fresh.real + this->imaginary * fresh.imaginary) / r;

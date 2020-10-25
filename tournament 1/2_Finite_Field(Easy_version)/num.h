@@ -8,14 +8,13 @@
 #include <iostream>
 
 class Num {
-public:
+ public:
   Num(int value = 0, int modulo = 0);
 
   Num(const Num &other);
 
-    int value;
-    int modulo;
+  int value;
+  int modulo;
 };
-
 
 #endif //PMI_T_3_H_CPP_NUM_H
