@@ -3,7 +3,7 @@
 //
 #include <iostream>
 #include <cmath>
-
+#include "Rational.h"
 #ifndef PMI_T_3_H_CPP_LAB_1_COMPLEX_H_
 #define PMI_T_3_H_CPP_LAB_1_COMPLEX_H_
 
@@ -11,11 +11,11 @@ class Complex {
  public:
   Complex() = default;
 
-  Complex(double valid) {
+  explicit Complex(auto valid) {
     real = valid;
   }
 
-  Complex(double valid, double alleged) {
+  Complex(auto valid, auto alleged) {
     real = valid;
     imaginary = alleged;
   }
@@ -25,21 +25,20 @@ class Complex {
     imaginary = fresh.imaginary;
   }
 
-  [[nodiscard]] double GetReal() const {
+  [[nodiscard]] auto GetReal() const {
     return real;
   }
-  void SetReal(double real) {
+  void SetReal(auto real) {
     this->real = real;
   }
-  [[nodiscard]] double GetImaginary() const {
+  [[nodiscard]] auto GetImaginary() const {
     return imaginary;
   }
-  void SetImaginary(double imaginary) {
+  void SetImaginary(auto imaginary) {
     this->imaginary = imaginary;
   }
 
-  ~Complex() {
-  }
+  ~Complex() = default;
 
   // сложение
   Complex operator+(const Complex &fresh) const {
@@ -61,7 +60,7 @@ class Complex {
   Complex operator/(const Complex &fresh) const {
     Complex temp;
 
-    double r = fresh.real * fresh.real + fresh.imaginary * fresh.imaginary;
+    auto r = fresh.real * fresh.real + fresh.imaginary * fresh.imaginary;
     temp.real = (real * fresh.real + imaginary * fresh.imaginary) / r;
     temp.imaginary = (imaginary * fresh.real - real * fresh.imaginary) / r;
 
@@ -105,9 +104,8 @@ class Complex {
 
   // оператор /=
   Complex &operator/=(const Complex &fresh) {
-    double re;
-    double r = fresh.real * fresh.real + fresh.imaginary * fresh.imaginary;
-    re = (this->real * fresh.real + this->imaginary * fresh.imaginary) / r;
+    auto r = fresh.real * fresh.real + fresh.imaginary * fresh.imaginary;
+    auto re = (this->real * fresh.real + this->imaginary * fresh.imaginary) / r;
     this->imaginary =
         (this->imaginary * fresh.real - this->real * fresh.imaginary) / r;
     this->real = re;
@@ -164,14 +162,8 @@ class Complex {
     return output;
   }
 
-  // оператор >>
-  friend std::istream &operator>>(std::istream &input, Complex &fresh) {
-    input >> fresh.real >> fresh.imaginary;
-    return input;
-  }
-
  private:
-  double real = 0, imaginary = 0;  // действительная и мнимая части
+  Rational<double> real = {0,0}, imaginary = {0,0};  // действительная и мнимая части
 };
 
 #endif //PMI_T_3_H_CPP_LAB_1_COMPLEX_H_

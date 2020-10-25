@@ -90,6 +90,23 @@ class Rational {
     return !this->operator==(r);
   }
 
+  bool operator>(const Rational<T> &r) const {
+    return this->numerator * r.denominator > r.numerator * this->denominator;
+  }
+
+  bool operator<(const Rational<T> &r) const {
+    return r > *this;
+  }
+
+  bool operator>=(const Rational<T> &r) const {
+    return *this > r || *this == r;
+  }
+
+  bool operator<=(const Rational<T> &r) const {
+    return *this < r || *this == r;
+  }
+
+
   Rational operator^(int num) const {
     Rational temp;
     temp.numerator = this->numerator;
