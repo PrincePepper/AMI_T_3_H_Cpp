@@ -1,9 +1,8 @@
 #include "Complex.h"
-#include "complex"
 #include <iostream>
 using namespace std;
 int main() {
-  Complex<int> a(5, 2);
+  Complex<int> a(5, 0);
   Complex<int> b(3, -3);
   b = b;
   cout << "a = " << a << "; b =" << b << endl;
@@ -15,7 +14,7 @@ int main() {
 
   cout << "a = " << a << "; b =" << b << endl;
 
-  Complex<int> c = 5;
+  Complex<int> c = 5.5;
   cout << c << endl;
   cout << c+a << endl;
   cout << a + b << endl;

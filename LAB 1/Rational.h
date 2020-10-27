@@ -24,8 +24,16 @@ class Rational {
     this->denominator = 1;
   }
   Rational(T n, T d) { // General case (n/d)
-    this->numerator = n;
-    this->denominator = d;
+    try {
+      if (d == 0)
+        throw std::invalid_argument(": Denominator equality 0");
+      this->numerator = n;
+      this->denominator = d;
+    }
+    catch (std::invalid_argument &exception) {
+      // Выводим ошибку
+      std::cerr <<typeid(this).name()<< exception.what() << std::endl;
+    }
     reduce(n, d);
   }
 

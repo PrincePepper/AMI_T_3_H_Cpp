@@ -12,31 +12,31 @@ class Complex {
   Complex() = default;
 
   Complex(T valid) {
-    real = valid;
-    imaginary = 0;
+    this->real = valid;
+    this->imaginary = 0;
   }
 
   Complex(Rational<T> valid, Rational<T> alleged) {
-    real = valid;
-    imaginary = alleged;
+    this->real = valid;
+    this->imaginary = alleged;
   }
 
   Complex(const Complex &fresh) {
-    real = fresh.real;
-    imaginary = fresh.imaginary;
+    this->real = fresh.real;
+    this->imaginary = fresh.imaginary;
   }
 
   [[nodiscard]] auto GetReal() const {
     return real;
   }
-  void SetReal(Rational<T> real) {
-    this->real = real;
+  void SetReal(Rational<T> r) {
+    this->real = r;
   }
   [[nodiscard]] auto GetImaginary() const {
     return imaginary;
   }
-  void SetImaginary(Rational<T> imaginary) {
-    this->imaginary = imaginary;
+  void SetImaginary(Rational<T> i) {
+    this->imaginary = i;
   }
 
   // сложение
