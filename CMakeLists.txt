@@ -9,5 +9,5 @@ add_executable(3_Date "tournament 1/3_Date/date.h" "tournament 1/3_Date/main.cpp
 add_executable(4_Set "tournament 1/4_Set/main.cpp" "tournament 1/4_Set/set.h")
 add_executable(5_FiniteField "tournament 1/5_Finite_Field(Hard_version)/num.h" "tournament 1/5_Finite_Field(Hard_version)/num.cpp" "tournament 1/5_Finite_Field(Hard_version)/main.cpp")
 add_executable(6_BufferedReader "tournament 1/6_BufferedReader/main.cpp" "tournament 1/6_BufferedReader/buffered_reader.h")
-add_executable(complex "LAB 1/Complex.cpp" "LAB 1/Complex.h" "LAB 1/tests.cpp")
-add_executable(rational "LAB 1/Rational.cpp" "LAB 1/Rational.h")
+
+add_executable(complex "LAB 1/Complex.cpp" "LAB 1/Complex.h"  "LAB 1/Rational.h")

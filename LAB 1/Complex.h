@@ -6,16 +6,17 @@
 #include "Rational.h"
 #ifndef PMI_T_3_H_CPP_LAB_1_COMPLEX_H_
 #define PMI_T_3_H_CPP_LAB_1_COMPLEX_H_
-
+template<typename T>
 class Complex {
  public:
   Complex() = default;
 
-  explicit Complex(auto valid) {
+  Complex(T valid) {
     real = valid;
+    imaginary = 0;
   }
 
-  Complex(auto valid, auto alleged) {
+  Complex(Rational<T> valid, Rational<T> alleged) {
     real = valid;
     imaginary = alleged;
   }
@@ -28,32 +29,30 @@ class Complex {
   [[nodiscard]] auto GetReal() const {
     return real;
   }
-  void SetReal(auto real) {
+  void SetReal(Rational<T> real) {
     this->real = real;
   }
   [[nodiscard]] auto GetImaginary() const {
     return imaginary;
   }
-  void SetImaginary(auto imaginary) {
+  void SetImaginary(Rational<T> imaginary) {
     this->imaginary = imaginary;
   }
 
-  ~Complex() = default;
-
   // сложение
   Complex operator+(const Complex &fresh) const {
-    return Complex(real + fresh.real, imaginary + fresh.imaginary);
+    return Complex(this->real + fresh.real, this->imaginary + fresh.imaginary);
   }
 
   // вычитание
   Complex operator-(const Complex &fresh) const {
-    return Complex(real - fresh.real, imaginary - fresh.imaginary);
+    return Complex(this->real - fresh.real, this->imaginary - fresh.imaginary);
   }
 
   // умножение
   Complex operator*(const Complex &fresh) const {
     return Complex(real * fresh.real - imaginary * fresh.imaginary,
-        real * fresh.imaginary + imaginary * fresh.real);
+                   real * fresh.imaginary + imaginary * fresh.real);
   }
 
   // деление
@@ -72,14 +71,7 @@ class Complex {
 
   // оператор ==
   bool operator==(const Complex &fresh) const {
-    if (std::fabs(this->real - fresh.real) <
-        std::numeric_limits<double>::epsilon()
-        && std::fabs(this->imaginary - fresh.imaginary) <
-            std::numeric_limits<double>::epsilon()) {
-      return true;
-    } else {
-      return false;
-    }
+    return this->real == fresh.real && this->imaginary == fresh.imaginary;
   }
 
   // оператор !=
@@ -129,9 +121,9 @@ class Complex {
   }
 
   // Модуль комплексного числа
-  [[nodiscard]] double abs() const {
-    return sqrt(real * real + imaginary * imaginary);
-  }
+//  [[nodiscard]] double abs() const {
+//    return std::sqrt(this->real * this->real + this->imaginary * this->imaginary);
+//  }
 
   // оператор <<
   friend std::ostream &operator<<(std::ostream &output, const Complex &fresh) {
@@ -149,7 +141,7 @@ class Complex {
       }
     } else {
       if (fresh.imaginary == 1) {
-        output << "(" << fresh.real << "i)";
+        output << "(" << fresh.real << "+" << "i)";
       } else if (fresh.imaginary == -1) {
         output << "(" << fresh.real << "-i)";
       } else if (fresh.imaginary > 0) {
@@ -163,7 +155,7 @@ class Complex {
   }
 
  private:
-  Rational<double> real = {0,0}, imaginary = {0,0};  // действительная и мнимая части
+  Rational<T> real, imaginary;  // действительная и мнимая части
 };
 
 #endif //PMI_T_3_H_CPP_LAB_1_COMPLEX_H_
