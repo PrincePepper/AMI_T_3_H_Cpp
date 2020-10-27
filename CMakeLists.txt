@@ -14,7 +14,13 @@ add_executable(complex "LAB 1/Complex.h"  "LAB 1/Rational.h" "LAB 1/tests.cpp")
 
 # add coverage
 # https://plugins.jetbrains.com/plugin/11031-c-c--coverage
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    add_compile_options(-fprofile-instr-generate -fcoverage-mapping)
+    add_link_options(-fprofile-instr-generate)
+    #Uncomment in case of linker errors
+    #link_libraries(clang_rt.profile-x86_64)
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     add_compile_options(--coverage)
-    link_libraries(gcov)
+    #Uncomment in case of linker errors
+    #link_libraries(gcov)
 endif ()
