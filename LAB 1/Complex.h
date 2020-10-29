@@ -120,10 +120,11 @@ class Complex {
     return temp;
   }
 
-  // Модуль комплексного числа
-//  [[nodiscard]] double abs() const {
-//    return std::sqrt(this->real * this->real + this->imaginary * this->imaginary);
-//  }
+//   Модуль комплексного числа
+  [[nodiscard]] int abs() {
+    auto temp=this->real * this->real + this->imaginary * this->imaginary;
+    return std::sqrt(temp.toDouble());
+  }
 
   // оператор <<
   friend std::ostream &operator<<(std::ostream &output, const Complex &fresh) {

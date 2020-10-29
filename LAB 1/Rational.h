@@ -27,38 +27,40 @@ class Rational {
     try {
       if (d == 0)
         throw std::invalid_argument(": Denominator equality 0");
-      this->numerator = n;
-      this->denominator = d;
+      else {
+        this->numerator = n;
+        this->denominator = d;
+        reduce(n, d);
+      }
     }
     catch (std::invalid_argument &exception) {
       // Выводим ошибку
-      std::cerr <<typeid(this).name()<< exception.what() << std::endl;
+      std::cerr << typeid(this).name() << exception.what() << std::endl;
     }
-    reduce(n, d);
   }
 
   //// Assignment from I
-  Rational<T> &operator=(const Rational<T> &temp) = default;
+  Rational &operator=(const Rational &temp) = default;
 
   //// In addition to the following operators, all of the "obvious" derived
   //// operators are available - see operators.hpp
 
   //// Unary operators
-  Rational operator+(const Rational<T> &r) const {
-    T temp_n = this->numerator * std::lcm(this->denominator, r.denominator) / this->denominator
-        + r.numerator * std::lcm(this->denominator, r.denominator) / r.denominator;
-    T temp_d = std::lcm(this->denominator, r.denominator);
-    return Rational<T>(temp_n, temp_d);
-  }
-
-  Rational operator-(const Rational<T> &r) const {
+  Rational operator+(const Rational &r) const {
     auto temp = std::lcm(this->denominator, r.denominator);
-    T temp_n = this->numerator * temp / this->denominator - r.numerator * temp / r.denominator;
+    T temp_n = this->numerator * temp / this->denominator + r.numerator * temp / r.denominator;
     T temp_d = temp;
     return Rational<T>(temp_n, temp_d);
   }
 
-  Rational operator/(const Rational<T> &r) const {
+  Rational operator-(const Rational &r) const {
+    auto temp = std::lcm(this->denominator, r.denominator);
+    T temp_n = this->numerator * temp / this->denominator - r.numerator * temp / r.denominator;
+    T temp_d = temp;
+    return Rational(temp_n, temp_d);
+  }
+
+  Rational operator/(const Rational &r) const {
     return Rational<T>(this->numerator * r.denominator, this->denominator
         * r.numerator);
   }
@@ -68,46 +70,47 @@ class Rational {
   }
 
   //// Arithmetic operators
-  Rational &operator+=(const Rational<T> &r) const {
+  Rational &operator+=(const Rational &r) {
     return *this = *this + r;
   }
-  Rational &operator-=(const Rational<T> &r) const {
+  Rational &operator-=(const Rational &r) {
     return *this = *this - r;
   }
-  Rational &operator*=(const Rational<T> &r) const {
+  Rational &operator*=(const Rational &r) {
     return *this = *this * r;
   }
-  Rational &operator/=(const Rational<T> &r) const {
+  Rational &operator/=(const Rational &r) {
     return *this = *this / r;
   }
 
   //// Comparison operators
-  bool operator==(const Rational<T> &r) const {
+  bool operator==(const Rational &r) const {
     return this->numerator == r.numerator && this->denominator == r.denominator;
   }
-  Rational<T> operator-() const {
+  Rational operator-() const {
     return Rational<T>(-this->numerator, this->denominator);
   }
 
-  bool operator!=(const Rational<T> &r) const {
+  bool operator!=(const Rational &r) const {
     return !this->operator==(r);
   }
 
-  bool operator>(const Rational<T> &r) const {
-    return this->numerator * r.denominator > r.numerator * this->denominator;
+  bool operator>(const Rational &r) const {
+    auto temp = std::lcm(this->denominator, r.denominator);
+    return this->numerator * temp/this->denominator > r.numerator *temp/ r.denominator;
   }
-
-  bool operator<(const Rational<T> &r) const {
-    return r > *this;
-  }
-
-  bool operator>=(const Rational<T> &r) const {
-    return *this > r || *this == r;
-  }
-
-  bool operator<=(const Rational<T> &r) const {
-    return *this < r || *this == r;
-  }
+//
+//  bool operator<(const Rational &r) const {
+//    return r > *this;
+//  }
+//
+//  bool operator>=(const Rational &r) const {
+//    return *this > r || *this == r;
+//  }
+//
+//  bool operator<=(const Rational &r) const {
+//    return *this < r || *this == r;
+//  }
 
   Rational operator^(int num) const {
     Rational temp;
@@ -119,13 +122,38 @@ class Rational {
     return temp;
   }
 
-  friend std::ostream &operator<<(std::ostream &out, const Rational<T> &r) {
-    if (r.numerator == r.denominator) { out << 1; }
-    else if (r.denominator == 1) { out << r.numerator; }
-    else {
+  [[nodiscard]] double toDouble() const {
+    return (double) this->numerator / this->denominator;
+  }
+
+  friend std::ostream &operator<<(std::ostream &out, const Rational &r) {
+    if (r.numerator == 0) {
+      out << 0;
+    } else if (std::abs(r.numerator) == std::abs(r.denominator)) {
+      if (r.numerator + r.denominator == std::abs(r.numerator) * 2)
+        out << 1;
+      else out << -1;
+    } else if (r.denominator == 1) {
+      out << r.numerator;
+    } else if (r.denominator == -1) {
+      out << -r.numerator;
+    } else {
       out << r.numerator << "/" << r.denominator;
     }
     return out;
+  }
+
+  T GetNumerator() const {
+    return numerator;
+  }
+  void SetNumerator(T n) {
+    Rational::numerator = n;
+  }
+  T GetDenominator() const {
+    return denominator;
+  }
+  void SetDenominator(T d) {
+    Rational::denominator = d;
   }
  private:
   // Representation
