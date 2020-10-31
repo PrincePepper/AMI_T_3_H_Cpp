@@ -27,7 +27,8 @@ TEST_CASE("LAB") {
 
       Complex<int> kopy = Complex<int>(8, 3);
       Complex<int> dCopy(kopy);
-      REQUIRE(dCopy == kopy);
+      dCopy+=5;
+      REQUIRE(dCopy == kopy+5);
     }
     SECTION("Addition check") {
       Complex<int> a_int(5, 2);
