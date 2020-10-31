@@ -97,20 +97,23 @@ class Rational {
 
   bool operator>(const Rational &r) const {
     auto temp = std::lcm(this->denominator, r.denominator);
-    return this->numerator * temp/this->denominator > r.numerator *temp/ r.denominator;
+    return this->numerator * temp / this->denominator > r.numerator * temp / r.denominator;
   }
-//
-//  bool operator<(const Rational &r) const {
-//    return r > *this;
-//  }
-//
-//  bool operator>=(const Rational &r) const {
-//    return *this > r || *this == r;
-//  }
-//
-//  bool operator<=(const Rational &r) const {
-//    return *this < r || *this == r;
-//  }
+
+  bool operator<(const Rational &r) const {
+    auto temp = std::lcm(this->denominator, r.denominator);
+    return this->numerator * temp / this->denominator < r.numerator * temp / r.denominator;
+  }
+
+  bool operator>=(const Rational &r) const {
+    auto temp = std::lcm(this->denominator, r.denominator);
+    return this->numerator * temp / this->denominator >= r.numerator * temp / r.denominator;
+  }
+
+  bool operator<=(const Rational &r) const {
+    auto temp = std::lcm(this->denominator, r.denominator);
+    return this->numerator * temp / this->denominator <= r.numerator * temp / r.denominator;
+  }
 
   Rational operator^(int num) const {
     Rational temp;
@@ -124,6 +127,9 @@ class Rational {
 
   [[nodiscard]] double toDouble() const {
     return (double) this->numerator / this->denominator;
+  }
+  [[nodiscard]] double Atan() const {
+    return std::atan((double) this->numerator / this->denominator);
   }
 
   friend std::ostream &operator<<(std::ostream &out, const Rational &r) {

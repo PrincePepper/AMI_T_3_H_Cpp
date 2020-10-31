@@ -121,9 +121,20 @@ class Complex {
   }
 
 //   Модуль комплексного числа
-  [[nodiscard]] int abs() {
-    auto temp=this->real * this->real + this->imaginary * this->imaginary;
+  [[nodiscard]] T abs() {
+    auto temp = this->real * this->real + this->imaginary * this->imaginary;
     return std::sqrt(temp.toDouble());
+  }
+
+  [[nodiscard]] T arg() const {
+    auto PI = std::acos(-1.0);
+    auto arg_result = Rational<T>(this->imaginary / this->real).Atan();
+    if (this->real < 0 && this->imaginary >= 0) {
+      arg_result += PI;
+    } else if (this->real < 0 && this->imaginary < 0) {
+      arg_result -= PI;
+    }
+    return arg_result;
   }
 
   // оператор <<

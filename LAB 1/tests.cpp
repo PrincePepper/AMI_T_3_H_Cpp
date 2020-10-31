@@ -27,8 +27,8 @@ TEST_CASE("LAB") {
 
       Complex<int> kopy = Complex<int>(8, 3);
       Complex<int> dCopy(kopy);
-      dCopy+=5;
-      REQUIRE(dCopy == kopy+5);
+      dCopy += 5;
+      REQUIRE(dCopy == kopy + 5);
     }
     SECTION("Addition check") {
       Complex<int> a_int(5, 2);
@@ -138,6 +138,25 @@ TEST_CASE("LAB") {
       std::complex<int> b_int(5, 2);
       auto b = a_int.abs();
       auto c = std::abs(b_int);
+      REQUIRE(b == c);
+    }
+    SECTION("Arg") {
+      Complex<int> a_int(5, 2);
+      std::complex<int> b_int(5, 2);
+      auto b = a_int.arg();
+      auto c = std::arg(b_int);
+      REQUIRE(b == c);
+
+      a_int = {-12, 56};
+      b_int = {-12, 56};
+      b = a_int.arg();
+      c = std::arg(b_int);
+      REQUIRE(b == c);
+
+      a_int = {-56, -12};
+      b_int = {-56, -12};
+      b = a_int.arg();
+      c = std::arg(b_int);
       REQUIRE(b == c);
     }
 
@@ -309,6 +328,28 @@ TEST_CASE("LAB") {
       Rational<int> a_int(5, 2);
       Rational<int> b_int(4, -3);
       REQUIRE(a_int > b_int);
+    }
+
+    SECTION("check which is small") {
+      Rational<int> a_int(5, 2);
+      Rational<int> b_int(4, -3);
+      REQUIRE(b_int < a_int);
+    }
+    SECTION("check which is more") {
+      Rational<int> a_int(5, 2);
+      Rational<int> b_int(4, -3);
+      REQUIRE(b_int <= a_int);
+      a_int = {5, 2};
+      b_int = {5, 2};
+      REQUIRE(b_int <= a_int);
+    }
+    SECTION("check which is more") {
+      Rational<int> a_int(5, 2);
+      Rational<int> b_int(4, -3);
+      REQUIRE(a_int >= b_int);
+      a_int = {5, 2};
+      b_int = {5, 2};
+      REQUIRE(a_int >= b_int);
     }
 
     SECTION("Response output") {
