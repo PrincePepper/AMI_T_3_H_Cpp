@@ -158,6 +158,12 @@ TEST_CASE("LAB") {
       b = a_int.arg();
       c = std::arg(b_int);
       REQUIRE(b == c);
+
+      a_int = {0, 0};
+      b_int = {0, 0};
+      b = a_int.arg();
+      c = std::arg(b_int);
+      REQUIRE(b == c);
     }
 
     SECTION("Response output") {

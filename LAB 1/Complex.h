@@ -127,12 +127,12 @@ class Complex {
   }
 
   [[nodiscard]] T arg() const {
-    auto PI = std::acos(-1.0);
+    if (this->real == 0 && this->imaginary == 0) return 0;
     auto arg_result = Rational<T>(this->imaginary / this->real).Atan();
     if (this->real < 0 && this->imaginary >= 0) {
-      arg_result += PI;
+      arg_result += M_PI;
     } else if (this->real < 0 && this->imaginary < 0) {
-      arg_result -= PI;
+      arg_result -= M_PI;
     }
     return arg_result;
   }
