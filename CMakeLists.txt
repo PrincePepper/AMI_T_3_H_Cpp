@@ -10,6 +10,10 @@ add_executable(4_Set "tournament 1/4_Set/main.cpp" "tournament 1/4_Set/set.h")
 add_executable(5_FiniteField "tournament 1/5_Finite_Field(Hard_version)/num.h" "tournament 1/5_Finite_Field(Hard_version)/num.cpp" "tournament 1/5_Finite_Field(Hard_version)/main.cpp")
 add_executable(6_BufferedReader "tournament 1/6_BufferedReader/main.cpp" "tournament 1/6_BufferedReader/buffered_reader.h")
 
+add_executable(3_factory "tournament 2/3_factory/factory.h" "tournament 2/3_factory/main.cpp")
+add_executable(4_code "tournament 2/4_Code_format_visitor/format_visitor.h" "tournament 2/4_Code_format_visitor/main.cpp")
+add_executable(5_gamedatabase "tournament 2/5_GameDatabase/game_database.h" "tournament 2/5_GameDatabase/main.cpp")
+
 add_executable(complex "LAB 1/Complex.h"  "LAB 1/Rational.h" "LAB 1/tests.cpp")
 
 # add coverage
