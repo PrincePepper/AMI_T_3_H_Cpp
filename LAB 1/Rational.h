@@ -48,14 +48,16 @@ class Rational {
   //// Unary operators
   Rational operator+(const Rational &r) const {
     auto temp = std::lcm(this->denominator, r.denominator);
-    T temp_n = this->numerator * temp / this->denominator + r.numerator * temp / r.denominator;
+    T temp_n = this->numerator * temp / this->denominator
+        + r.numerator * temp / r.denominator;
     T temp_d = temp;
     return Rational<T>(temp_n, temp_d);
   }
 
   Rational operator-(const Rational &r) const {
     auto temp = std::lcm(this->denominator, r.denominator);
-    T temp_n = this->numerator * temp / this->denominator - r.numerator * temp / r.denominator;
+    T temp_n = this->numerator * temp / this->denominator
+        - r.numerator * temp / r.denominator;
     T temp_d = temp;
     return Rational(temp_n, temp_d);
   }
@@ -97,22 +99,26 @@ class Rational {
 
   bool operator>(const Rational &r) const {
     auto temp = std::lcm(this->denominator, r.denominator);
-    return this->numerator * temp / this->denominator > r.numerator * temp / r.denominator;
+    return this->numerator * temp / this->denominator
+        > r.numerator * temp / r.denominator;
   }
 
   bool operator<(const Rational &r) const {
     auto temp = std::lcm(this->denominator, r.denominator);
-    return this->numerator * temp / this->denominator < r.numerator * temp / r.denominator;
+    return this->numerator * temp / this->denominator
+        < r.numerator * temp / r.denominator;
   }
 
   bool operator>=(const Rational &r) const {
     auto temp = std::lcm(this->denominator, r.denominator);
-    return this->numerator * temp / this->denominator >= r.numerator * temp / r.denominator;
+    return this->numerator * temp / this->denominator
+        >= r.numerator * temp / r.denominator;
   }
 
   bool operator<=(const Rational &r) const {
     auto temp = std::lcm(this->denominator, r.denominator);
-    return this->numerator * temp / this->denominator <= r.numerator * temp / r.denominator;
+    return this->numerator * temp / this->denominator
+        <= r.numerator * temp / r.denominator;
   }
 
   Rational operator^(int num) const {
@@ -128,6 +134,7 @@ class Rational {
   [[nodiscard]] double toDouble() const {
     return (double) this->numerator / this->denominator;
   }
+
   [[nodiscard]] double Atan() const {
     return std::atan((double) this->numerator / this->denominator);
   }
@@ -164,6 +171,7 @@ class Rational {
  private:
   // Representation
   T numerator = 0;
+
   T denominator = 0;
 
   void reduce(T a, T b) {
