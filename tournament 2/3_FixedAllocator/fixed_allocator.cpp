@@ -58,7 +58,7 @@ int main() {
       a.Allocate();
     require_allocs(1, a.InnerAllocator().Allocated());
   }
- 
+
   {
     FixedAllocator<std::string> a(100);
     for (int i = 0; i < 50; ++i)
