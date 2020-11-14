@@ -17,7 +17,7 @@ add_executable(4_code "tournament 2/4_Code_format_visitor/format_visitor.h" "tou
 add_executable(5_gamedatabase "tournament 2/5_GameDatabase/game_database.h" "tournament 2/5_GameDatabase/main.cpp")
 
 add_executable(complex "LAB 1/Complex.h"  "LAB 1/Rational.h" "LAB 1/tests.cpp")
-
+add_executable(hashmap "LAB 2/hash_map.cpp"  "LAB 2/hash_map.hpp" "LAB 2/tests.cpp")
 # add coverage
 # https://plugins.jetbrains.com/plugin/11031-c-c--coverage
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
