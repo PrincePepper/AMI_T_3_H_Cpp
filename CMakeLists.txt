@@ -13,11 +13,10 @@ add_executable(6_BufferedReader "tournament 1/6_BufferedReader/main.cpp" "tourna
 add_executable(1_pinter "tournament 2/1_SmartPointer/SmartPointer.h" "tournament 2/1_SmartPointer/main.cpp" "tournament 2/1_SmartPointer/Test_SmartPointer.h" "tournament 2/1_SmartPointer/Test.h")
 add_executable(2_factory "tournament 2/2_factory/factory.h" "tournament 2/2_factory/main.cpp")
 add_executable(3_fixed "tournament 2/3_FixedAllocator/fixed_allocator.h" "tournament 2/3_FixedAllocator/fixed_allocator.cpp")
-add_executable(4_code "tournament 2/4_Code_format_visitor/format_visitor.h" "tournament 2/4_Code_format_visitor/main.cpp")
 add_executable(5_gamedatabase "tournament 2/5_GameDatabase/game_database.h" "tournament 2/5_GameDatabase/main.cpp")
 
-add_executable(complex "LAB 1/Complex.h"  "LAB 1/Rational.h" "LAB 1/tests.cpp")
-add_executable(hashmap "LAB 2/hash_map.cpp"  "LAB 2/hash_map.hpp" "LAB 2/tests.cpp")
+add_executable(complex "LAB 1/Complex.h" "LAB 1/Rational.h" "LAB 1/tests.cpp")
+add_executable(hashmap "LAB 2/hash_map.hpp" "LAB 2/tests.cpp")
 # add coverage
 # https://plugins.jetbrains.com/plugin/11031-c-c--coverage
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
