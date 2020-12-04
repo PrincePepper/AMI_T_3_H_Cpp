@@ -28,18 +28,15 @@ class allocator {
 
   ~allocator() = default;
 
-  //выделения памяти
-  pointer allocate(size_type n) {
+  //выделяю память
+  pointer allocate(size_type n = 1) {
     return static_cast<pointer>(::operator new(n * sizeof(value_type)));
   }
-
-  //освобождение памяти
+  //освобождаю память
   void deallocate(pointer p, size_type n) noexcept {
     ::operator delete(p, n);
   }
 
- private:
-  int memory_variable;
 };
 
 template<typename ValueType>
@@ -276,14 +273,6 @@ class hash_map {
       data(alloc.allocate(1)) {}
 
   /*
-  *  @brief Copy constructor with allocator argument.
-  * @param  uset  Input %hash_map to copy.
-  * @param  a  An allocator object.
-  */
-  hash_map(const hash_map &umap,
-           const allocator_type &a);
-
-  /*
   *  @brief  Move constructor with allocator argument.
   *  @param  uset Input %hash_map to move.
   *  @param  a    An allocator object.
@@ -291,7 +280,7 @@ class hash_map {
   hash_map(const hash_map &umap,
            const allocator_type &a) : alloc(a) {
     hash = umap.hash_function();
-    key_equal = umap.key_eq();
+    equal = umap.key_eq();
     data = alloc.allocate(umap.bucket_count());
     table = umap.table;
     for (size_type i = 0; i < count_buckets; i++) {
@@ -313,8 +302,6 @@ class hash_map {
    *  Create an %hash_map consisting of copies of the elements in the
    *  list. This is linear in N (where N is @a l.size()).
    */
-  hash_map(std::initializer_list<value_type> l,
-           size_type n = 0);
 
   hash_map(std::initializer_list<value_type> l, size_type n = 0) {
     if (n != 0)
@@ -523,7 +510,7 @@ class hash_map {
       if (load_factor() >= max_load_factor()) {
         rehash(2 * count_buckets);
         return std::make_pair(find(other.first), true);
-      } else return std::make_pair(iterator(data, status_table, index), true);
+      } else return std::make_pair(iterator(data, table, index), true);
     }
   }
 
@@ -692,7 +679,7 @@ class hash_map {
    *  in any way.  Managing the pointer is the user's responsibility.
    */
   void clear() noexcept {
-    table.assign(bucket_count, 0);
+    table.assign(bucket_count(), 0);
     non_empty_buckets = 0;
   }
 
