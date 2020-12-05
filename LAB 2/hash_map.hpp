@@ -4,6 +4,7 @@
 #include <memory>
 #include <utility>
 #include <type_traits>
+#include <cmath>
 
 namespace fefu {
 
@@ -48,13 +49,14 @@ class hash_map_iterator {
   using reference = ValueType &;
   using pointer = ValueType *;
 
-  hash_map_iterator() noexcept = default;
+  hash_map_iterator() noexcept: data(nullptr), table(0), position(0) {}
 
-  hash_map_iterator(const hash_map_iterator &other) noexcept {
-    data = other.data;
-    table = other.table;
-    position = other.position;
-  }
+  hash_map_iterator(pointer data, std::vector<int> table, size_t position)
+      : data(data), table(table), position(position) {}
+
+  hash_map_iterator(const hash_map_iterator &other) noexcept
+      : data(other.data), table(other.table), position(other.position) {}
+
   //указатель на адрес c первого элемента массива
   reference operator*() const {
     return *(data + position);
@@ -66,42 +68,28 @@ class hash_map_iterator {
 
   // prefix ++
   hash_map_iterator &operator++() {
-    while (true) {
-      //проверка на конец
-      if (position == table.size())
-        break;
-      if (*(table.data() + position) == 1)
-        break;
-      position++;
+    for (size_t i = position + 1; i < table.size(); i++) {
+      if (table[i] == 1) {
+        position = i;
+        return *this;
+      }
     }
-
+    position = table.size();
     return *this;
   }
-
   // postfix ++
-  hash_map_iterator operator++(int) {
-    //ищем корзину с элементом
-    while (table[position] == 0) {
-      //проверка на конец
-      if (position == table.size())
-        return;
-      ++position;
-    }
-    return *this;
+  hash_map_iterator operator++(int number) {
+    return ++(*this);
   }
 
-  friend bool operator==(const hash_map_iterator<ValueType> &my,
+  friend bool operator==(const hash_map_iterator<ValueType> &our,
                          const hash_map_iterator<ValueType> &other) {
-    if (my.state == other.state && my.start == other.start
-        && my.position == other.position) {
-      return true;
-    }
-    return false;
+    return (our.data + our.position == other.data + other.position);
   }
 
-  friend bool operator!=(const hash_map_iterator<ValueType> &my,
+  friend bool operator!=(const hash_map_iterator<ValueType> &our,
                          const hash_map_iterator<ValueType> &other) {
-    return my != other;
+    return !(our == other);
   }
 
  private:
@@ -123,19 +111,21 @@ class hash_map_const_iterator {
   using reference = const ValueType &;
   using pointer = const ValueType *;
 
-  hash_map_const_iterator() noexcept = default;
+  hash_map_const_iterator() noexcept
+      : data(nullptr), table(0), position(0) {}
 
-  hash_map_const_iterator(const hash_map_const_iterator &other) noexcept {
-    data = other.data;
-    table = other.table;
-    position = other.position;
-  }
+  hash_map_const_iterator(const pointer data,
+                          const std::vector<int> table2,
+                          const size_t position)
+      : data(data), table(table2), position(position) {}
 
-  hash_map_const_iterator(const hash_map_iterator<ValueType> &other) noexcept {
-    data = other.data;
-    table = other.table;
-    position = other.position;
-  }
+  hash_map_const_iterator(const hash_map_const_iterator &other) noexcept: data(
+      other.data), table(other.table), position(other.position) {}
+
+  hash_map_const_iterator(const hash_map_iterator<ValueType> &other) noexcept
+      : data(other.data),
+        table(other.table),
+        position(other.position) {}
 
   reference operator*() const {
     return *(data + position);
@@ -147,42 +137,28 @@ class hash_map_const_iterator {
 
   // prefix ++
   hash_map_const_iterator &operator++() {
-    while (true) {
-      //проверка на конец
-      if (position == table.size())
-        break;
-      if (*(table.data() + position) == 1)
-        break;
-      position++;
+    for (size_t i = position + 1; i < table.size(); ++i) {
+      if (table[i] == 1) {
+        position = i;
+        return *this;
+      }
     }
-
+    position = table.size();
     return *this;
   }
-
   // postfix ++
   hash_map_const_iterator operator++(int) {
-    //ищем корзину с элементом
-    while (table[position] == 0) {
-      //проверка на конец
-      if (position == table.size())
-        return;
-      ++position;
-    }
-    return *this;
+    return ++(*this);
   }
 
-  friend bool operator==(const hash_map_iterator<ValueType> &my,
-                         const hash_map_iterator<ValueType> &other) {
-    if (my.state == other.state && my.start == other.start
-        && my.position == other.position) {
-      return true;
-    }
-    return false;
+  friend bool operator==(const hash_map_const_iterator<ValueType> &our,
+                         const hash_map_const_iterator<ValueType> &other) {
+    return (our.data + our.position == other.data + other.position);
   }
 
-  friend bool operator!=(const hash_map_iterator<ValueType> &my,
-                         const hash_map_iterator<ValueType> &other) {
-    return my != other;
+  friend bool operator!=(const hash_map_const_iterator<ValueType> &our,
+                         const hash_map_const_iterator<ValueType> &other) {
+    return !(our == other);
   }
 
  private:
@@ -235,8 +211,8 @@ class hash_map {
    *  distance(first,last)).
    */
   template<typename InputIterator>
-  hash_map(InputIterator first, InputIterator last,
-           size_type n = 0) : hash_map(n) {
+  hash_map(InputIterator first, InputIterator last, size_type n = 0) :
+      hash_map(n) {
     insert(first, last);
   }
 
@@ -285,8 +261,8 @@ class hash_map {
     table = umap.table;
     for (size_type i = 0; i < count_buckets; i++) {
       if (table[i] != 0) {
-        insert(std::make_pair(umap.data[i].first, umap.data[i].second));
-        //new(data + i) value_type{umap.data[i].first, umap.data[i].second};
+        //insert(std::make_pair(umap.data[i].first, umap.data[i].second));
+        new(data + i) value_type{umap.data[i].first, umap.data[i].second};
       }
     }
     count_buckets = umap.count_buckets;
@@ -303,10 +279,7 @@ class hash_map {
    *  list. This is linear in N (where N is @a l.size()).
    */
 
-  hash_map(std::initializer_list<value_type> l, size_type n = 0) {
-    if (n != 0)
-      hash_map(n);
-    else hash_map(2 * l.size());
+  hash_map(std::initializer_list<value_type> l, size_type n = 0) : hash_map(n) {
     insert(l);
   }
 
@@ -334,7 +307,11 @@ class hash_map {
    *  that the resulting %hash_map's size is the same as the number
    *  of elements assigned.
    */
-  hash_map &operator=(std::initializer_list<value_type> l);
+  hash_map &operator=(std::initializer_list<value_type> l) {
+    hash_map table(l);
+    swap(table);
+    return *this;
+  }
 
   ///  Returns the allocator object used by the %hash_map.
   allocator_type get_allocator() const noexcept {
@@ -354,7 +331,6 @@ class hash_map {
   }
 
   ///  Returns the maximum size of the %hash_map.
-  //возвращает предел типа
   size_type max_size() const noexcept {
     return std::numeric_limits<size_type>::max();
   }
@@ -366,13 +342,12 @@ class hash_map {
    *  %hash_map.
    */
   iterator begin() noexcept {
-    //первый элемент, у которого в статусе единица, искомый
     for (size_type i = 0; i < table.size(); i++) {
       if (table[i] == 1) {
-        return iterator(data, &table, i);
+        return iterator(data, table, i);
       }
     }
-    return end();
+    return iterator(data, table, count_buckets);
   }
 
   //@{
@@ -380,14 +355,11 @@ class hash_map {
    *  Returns a read-only (constant) iterator that points to the first
    *  element in the %hash_map.
    */
+
   const_iterator begin() const noexcept {
-    for (size_type i = 0; i < table.size(); i++) {
-      if (table[i] == 1) {
-        return const_iterator(data, table, i);
-      }
-    }
-    return cend();
+    return cbegin();
   }
+
   const_iterator cbegin() const noexcept {
     for (size_type i = 0; i < table.size(); i++) {
       if (table[i] == 1) {
@@ -402,9 +374,8 @@ class hash_map {
    *  the %hash_map.
    */
   iterator end() noexcept {
-    return iterator(data, table, table.size());
+    return iterator(data, table, count_buckets);
   }
-
 
   //@{
   /**
@@ -412,11 +383,11 @@ class hash_map {
    *  element in the %hash_map.
    */
   const_iterator end() const noexcept {
-    return const_iterator(data, table, table.size());
+    return cend();
   }
 
   const_iterator cend() const noexcept {
-    return const_iterator(data, table, table.size());
+    return const_iterator(data, table, count_buckets);
   }
   //@}
 
@@ -442,6 +413,7 @@ class hash_map {
   *
   *  Insertion requires amortized constant time.
   */
+  //variadic templates
   template<typename... _Args>
   std::pair<iterator, bool> emplace(_Args &&... args) {
   }
@@ -493,47 +465,52 @@ class hash_map {
   *  Insertion requires amortized constant time.
   */
 
-  std::pair<iterator, bool> insert(const value_type &other) {
-    iterator element = find(other.first);
-    if (element != end()) {
-      return std::make_pair(element, false);
-    } else {
-      size_type index = hash(other.first) % count_buckets;
-      while (table[index] == 1) {
-        index = (index + hash(other.first)) % count_buckets;
-      }
-      if (table[index] == 0) {
-        new(data + index) value_type(other);
-        table[index] = 1;
-        non_empty_buckets++;
-      }
-      if (load_factor() >= max_load_factor()) {
-        rehash(2 * count_buckets);
-        return std::make_pair(find(other.first), true);
-      } else return std::make_pair(iterator(data, table, index), true);
+  std::pair<iterator, bool> insert(const value_type &x) {
+    if (count_buckets == 0) {
+      rehash((count_buckets + 1) * 2);
     }
-  }
-
-  std::pair<iterator, bool> insert(value_type &&x) {
     iterator element = find(x.first);
     if (element != end()) {
       return std::make_pair(element, false);
-    } else {
-      size_type index = hash(x.first) % count_buckets;
-      while (table[index] == 1) {
-        index = (index + hash(x.first)) % count_buckets;
-      }
-      if (table[index] == 0) {
-        //placement new, создание объекта в памяти
-        new(data + index) value_type(x);
-        table[index] = 1;
-        non_empty_buckets++;
-      }
-      if (load_factor() >= max_load_factor()) {
-        rehash(2 * count_buckets);
-        return std::make_pair(find(x.first), true);
-      } else return std::make_pair(iterator(data, table, index), true);
     }
+    size_type index = hash(x.first) % count_buckets;
+    while (table[index] == 1) {
+      index = (index + hash(x.first)) % count_buckets;
+    }
+    if (table[index] == 0) {
+      non_empty_buckets++;
+      new(data + index) value_type(x);
+      table[index] = 1;
+    }
+    if (load_factor() >= max_load_factor()) {
+      rehash(2 * count_buckets);
+      return std::make_pair(find(x.first), true);
+    }
+    return std::make_pair(iterator(data, table, index), true);
+  }
+
+  std::pair<iterator, bool> insert(value_type &&x) {
+    if (count_buckets == 0) {
+      rehash((count_buckets + 1) * 2);
+    }
+    iterator element = find(x.first);
+    if (element != end()) {
+      return std::make_pair(element, false);
+    }
+    size_type index = hash(x.first) % count_buckets;
+    while (table[index] == 1) {
+      index = (index + hash(x.first)) % count_buckets;
+    }
+    if (table[index] == 0) {
+      non_empty_buckets++;
+      new(data + index) value_type(x);
+      table[index] = 1;
+    }
+    if (load_factor() >= max_load_factor()) {
+      rehash(2 * count_buckets);
+      return std::make_pair(find(x.first), true);
+    }
+    return std::make_pair(iterator(data, table, index), true);
   }
 
   //@}
@@ -549,8 +526,8 @@ class hash_map {
    */
   template<typename _InputIterator>
   void insert(_InputIterator first, _InputIterator last) {
-    for (auto i = first; i != last; i++) {
-      insert(*i);
+    for (; first != last; ++first) {
+      insert(*first);
     }
   }
 
@@ -741,11 +718,9 @@ class hash_map {
    */
   iterator find(const key_type &x) {
     size_type index = hash(x) % count_buckets;
-    //допустим произошла коллизия и элемент оказался в другом месте, ищем
     while (data[index].first != x && table[index] != 0) {
       index = (index + hash(x)) % count_buckets;
     }
-    //если по этому индексу лежит нужный элемент и в статусе его место равно 1
     if (data[index].first == x && table[index] == 1) {
       return iterator(data, table, index);
     } else return iterator(data, table, count_buckets);
@@ -753,11 +728,9 @@ class hash_map {
 
   const_iterator find(const key_type &x) const {
     size_type index = hash(x) % count_buckets;
-    //допустим произошла коллизия и элемент оказался в другом месте, ищем
     while (data[index].first != x && table[index] != 0) {
       index = (index + hash(x)) % count_buckets;
     }
-    //если по этому индексу лежит нужный элемент и в статусе его место равно 1
     if (data[index].first == x && table[index] == 1) {
       return const_iterator(data, table, index);
     } else return cend();
@@ -890,10 +863,9 @@ class hash_map {
    *  %hash_map maximum load factor.
    */
   void rehash(size_type n) {
-    hash_map new_table(n);
-    new_table.insert(begin(), end());
-    //или своп
-    *this = new_table;
+    hash_map table(n);
+    table.insert(begin(), end());
+    *this = table;
   }
 
   /**
@@ -904,25 +876,20 @@ class hash_map {
    *  Same as rehash(ceil(n / max_load_factor())).
    */
   void reserve(size_type n) {
-    rehash(ceil(n / max_load_factor()));
+    rehash(ceil(static_cast<float>(n) / static_cast<float>(max_load_factor())));
   }
 
   bool operator==(const hash_map &other) const {
-    if (count_buckets != other.count_buckets) {
+    if (size() != other.size()) {
       return false;
     }
-    for (size_type i = 0; i < count_buckets; i++) {
-      if (table[i] != other.table[i]) {
+    for (auto &thing : other) {
+      auto element = find(thing.first);
+      if (element == end()) {
         return false;
       }
-      //должны лежать одинаковые элементы
-      if (table[i] == 1 && other.table[i] == table[i]) {
-        if (!equal(data[i].first, other.data[i].first)) {
-          return false;
-        }
-        if (!equal(data[i].second, other.data[i].second)) {
-          return false;
-        }
+      if (thing.second != element->second) {
+        return false;
       }
     }
     return true;
