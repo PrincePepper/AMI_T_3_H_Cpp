@@ -5,6 +5,7 @@
 #include <utility>
 #include <type_traits>
 #include <cmath>
+#include <vector>
 
 namespace fefu {
 
