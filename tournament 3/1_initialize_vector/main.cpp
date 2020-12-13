@@ -65,6 +65,5 @@ int main() {
     std::vector<int64_t> b(1, w);
     assert(a == b);
   }
-
   std::cout << 1;
 }
