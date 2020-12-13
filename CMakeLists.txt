@@ -15,6 +15,11 @@ add_executable(2_factory "tournament 2/2_factory/factory.h" "tournament 2/2_fact
 add_executable(3_fixed "tournament 2/3_FixedAllocator/fixed_allocator.h" "tournament 2/3_FixedAllocator/fixed_allocator.cpp")
 add_executable(5_gamedatabase "tournament 2/5_GameDatabase/game_database.h" "tournament 2/5_GameDatabase/main.cpp")
 
+add_executable(1_initialize_vector "tournament 3/1_initialize_vector/main.cpp" "tournament 3/1_initialize_vector/initialize_vector.h")
+add_executable(2_binary "tournament 3/2_binary search/main.cpp" "tournament 3/2_binary search/find.h")
+add_executable(4_convertable "tournament 3/4_is_convertable/main.cpp" "tournament 3/4_is_convertable/is_customly_convertible.h")
+add_executable(3_visitor "tournament 3/3_graph_visitor/main.cpp" "tournament 3/3_graph_visitor/visitor.h")
+
 add_executable(complex "LAB 1/Complex.h" "LAB 1/Rational.h" "LAB 1/tests.cpp")
 add_executable(hashmap "LAB 2/hash_map.hpp" "LAB 2/tests.cpp")
 
