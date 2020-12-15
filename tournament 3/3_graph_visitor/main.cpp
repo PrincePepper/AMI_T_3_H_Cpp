@@ -12,15 +12,18 @@ template<class Graph, class Vertex, class Visitor>
 void BreadthFirstSearch(const Graph &graph,
                         const Vertex &origin_vertex,
                         Visitor visitor) {
+
   std::queue<Vertex> vertices_to_visit;
   std::unordered_set<Vertex> visited_vertices;
   vertices_to_visit.push(origin_vertex);
   visitor.DiscoverVertex(origin_vertex);
   visited_vertices.insert(origin_vertex);
+
   while (vertices_to_visit.size() > 0) {
     auto from = vertices_to_visit.front();
     vertices_to_visit.pop();
     visitor.ExamineVertex(from);
+
     for (const auto &target: graph.OutgoingEdges(from)) {
       if (visited_vertices.count(target) == 0) {
         visited_vertices.insert(target);

@@ -33,11 +33,6 @@ class BfsVisitor {
     return p->at(vertex);
   }
 
-  ~BfsVisitor() {
-    delete v;
-    delete p;
-  }
-
  private:
   Vertex *v;
 
