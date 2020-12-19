@@ -20,6 +20,8 @@ add_executable(2_binary "tournament 3/2_binary search/main.cpp" "tournament 3/2_
 add_executable(4_convertable "tournament 3/4_is_convertable/main.cpp" "tournament 3/4_is_convertable/is_customly_convertible.h")
 add_executable(3_visitor "tournament 3/3_graph_visitor/main.cpp" "tournament 3/3_graph_visitor/visitor.h")
 
+add_executable(3_queue "tournament 4/3_queue/main.cpp" "tournament 4/3_queue/solution.hpp")
+
 add_executable(complex "LAB 1/Complex.h" "LAB 1/Rational.h" "LAB 1/tests.cpp")
 add_executable(hashmap "LAB 2/hash_map.hpp" "LAB 2/tests.cpp")
 
