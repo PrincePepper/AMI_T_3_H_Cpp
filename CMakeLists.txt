@@ -20,6 +20,7 @@ add_executable(2_binary "tournament 3/2_binary search/main.cpp" "tournament 3/2_
 add_executable(4_convertable "tournament 3/4_is_convertable/main.cpp" "tournament 3/4_is_convertable/is_customly_convertible.h")
 add_executable(3_visitor "tournament 3/3_graph_visitor/main.cpp" "tournament 3/3_graph_visitor/visitor.h")
 
+add_executable(1_cipher "tournament 4/1_caesar_cipher/gen.cpp" "tournament 4/1_caesar_cipher/sol.cpp" "tournament 4/1_caesar_cipher/main.cpp" "tournament 4/1_caesar_cipher/caesar_encrypt.h")
 add_executable(3_queue "tournament 4/3_queue/main.cpp" "tournament 4/3_queue/solution.hpp")
 
 add_executable(complex "LAB 1/Complex.h" "LAB 1/Rational.h" "LAB 1/tests.cpp")

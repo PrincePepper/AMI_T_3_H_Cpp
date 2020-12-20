@@ -140,9 +140,9 @@ int main() {
   } else if (query == "thread_check") {
     int n;
     cin >> n;
-    std::thread push_thread(std::bind(push, n / 2));
-    std::thread emplace_thread(std::bind(emplace, n - n / 2));
-    std::thread pop_thread(std::bind(pop, n));
+    std::thread push_thread(push, n / 2);
+    std::thread emplace_thread(emplace, n - n / 2);
+    std::thread pop_thread(pop, n);
     push_thread.detach();
     emplace_thread.detach();
     pop_thread.join();

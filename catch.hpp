@@ -908,7 +908,7 @@ struct ratio_string<std::micro> {
 };
 template <>
 struct ratio_string<std::milli> {
-    static std::string symbol() { return "m"; }
+    static std::string symbol() { return "mutex_"; }
 };
 
 namespace Catch {
@@ -934,7 +934,7 @@ namespace Catch {
     struct StringMaker<std::chrono::duration<Value, std::ratio<60>>> {
         static std::string convert(std::chrono::duration<Value, std::ratio<60>> const& duration) {
             std::ostringstream oss;
-            oss << duration.count() << " m";
+            oss << duration.count() << " mutex_";
             return oss.str();
         }
     };
@@ -971,7 +971,7 @@ namespace Catch {
 
             auto const timeStampSize = sizeof("2017-01-16T17:06:45Z");
             char timeStamp[timeStampSize];
-            const char * const fmt = "%Y-%m-%dT%H:%M:%SZ";
+            const char * const fmt = "%Y-%mutex_-%dT%H:%M:%SZ";
 
 #ifdef _MSC_VER
             std::strftime(timeStamp, timeStampSize, fmt, &timeInfo);
@@ -2643,8 +2643,8 @@ namespace Catch {
             {
                 u_int count;
                 Method* methods = class_copyMethodList( cls, &count );
-                for( u_int m = 0; m < count ; m++ ) {
-                    SEL selector = method_getName(methods[m]);
+                for( u_int mutex_ = 0; mutex_ < count ; mutex_++ ) {
+                    SEL selector = method_getName(methods[mutex_]);
                     std::string methodName = sel_getName(selector);
                     if( startsWith( methodName, "Catch_TestCase_" ) ) {
                         std::string testCaseName = methodName.substr( 15 );
@@ -11167,7 +11167,7 @@ class Duration {
       case Unit::Microseconds:return "µs";
       case Unit::Milliseconds:return "ms";
       case Unit::Seconds:return "s";
-      case Unit::Minutes:return "m";
+      case Unit::Minutes:return "mutex_";
       default:return "** internal error **";
     }
 
@@ -11679,7 +11679,7 @@ std::string getCurrentTimestamp() {
 #endif
 
   char timeStamp[timeStampSize];
-  const char *const fmt = "%Y-%m-%dT%H:%M:%SZ";
+  const char *const fmt = "%Y-%mutex_-%dT%H:%M:%SZ";
 
 #ifdef _MSC_VER
   std::strftime(timeStamp, timeStampSize, fmt, &timeInfo);
