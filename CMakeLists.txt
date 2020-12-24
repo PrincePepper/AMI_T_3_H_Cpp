@@ -21,6 +21,7 @@ add_executable(4_convertable "tournament 3/4_is_convertable/main.cpp" "tournamen
 add_executable(3_visitor "tournament 3/3_graph_visitor/main.cpp" "tournament 3/3_graph_visitor/visitor.h")
 
 add_executable(1_cipher "tournament 4/1_caesar_cipher/gen.cpp" "tournament 4/1_caesar_cipher/sol.cpp" "tournament 4/1_caesar_cipher/main.cpp" "tournament 4/1_caesar_cipher/caesar_encrypt.h")
+add_executable(2_parallel "tournament 4/2_parallel_matrix_multiplication/main.cpp" "tournament 4/2_parallel_matrix_multiplication/matmul.h")
 add_executable(3_queue "tournament 4/3_queue/main.cpp" "tournament 4/3_queue/solution.hpp")
 
 add_executable(complex "LAB 1/Complex.h" "LAB 1/Rational.h" "LAB 1/tests.cpp")
