@@ -27,6 +27,21 @@ add_executable(3_queue "tournament 4/3_queue/main.cpp" "tournament 4/3_queue/sol
 add_executable(complex "LAB 1/Complex.h" "LAB 1/Rational.h" "LAB 1/tests.cpp")
 add_executable(hashmap "LAB 2/hash_map.hpp" "LAB 2/tests.cpp")
 
+add_executable(roguelike
+        "LAB 3/Point.h"
+        "LAB 3/Dragon.h"
+        "LAB 3/Enemy.h"
+        "LAB 3/Character.h"
+        "LAB 3/GameLoop.h"
+        "LAB 3/Gunsight.h"
+        "LAB 3/Knight.h"
+        "LAB 3/Map.h"
+        "LAB 3/Medkit.h"
+        "LAB 3/Princess.h"
+        "LAB 3/Shooter.h"
+        "LAB 3/Wall.h"
+        "LAB 3/Zombie.h"
+        "LAB 3/main.cpp")
 # add coverage
 # https://plugins.jetbrains.com/plugin/11031-c-c--coverage
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
