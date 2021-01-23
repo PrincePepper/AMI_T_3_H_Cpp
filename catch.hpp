@@ -96,7 +96,7 @@
 
 // In general each macro has a _NO_<feature name> form
 // (e.g. CATCH_CONFIG_NO_POSIX_SIGNALS) which disables the feature.
-// Many features, at point of detection, define an _INTERNAL_ macro, so they
+// Many features, at position of detection, define an _INTERNAL_ macro, so they
 // can be combined, en-mass, with the _NO_ forms later.
 
 #ifdef __cplusplus
@@ -6865,7 +6865,7 @@ namespace Catch {
     static SignalDefs signalDefs[] = {
         { SIGINT,  "SIGINT - Terminal interrupt signal" },
         { SIGILL,  "SIGILL - Illegal instruction signal" },
-        { SIGFPE,  "SIGFPE - Floating point error signal" },
+        { SIGFPE,  "SIGFPE - Floating position error signal" },
         { SIGSEGV, "SIGSEGV - Segmentation violation signal" },
         { SIGTERM, "SIGTERM - Termination request signal" },
         { SIGABRT, "SIGABRT - Abort (abnormal termination) signal" }
@@ -8321,7 +8321,7 @@ void RunContext::runCurrentTest(std::string &redirectedCout,
     // This just means the test was aborted due to failure
   } catch (...) {
     // Under CATCH_CONFIG_FAST_COMPILE, unexpected exceptions under REQUIRE assertions
-    // are reported without translation at the point of origin.
+    // are reported without translation at the position of origin.
     if (m_shouldReportUnexpected) {
       AssertionHandler
           (m_lastAssertionInfo.macroName
@@ -10660,7 +10660,7 @@ void prepareExpandedExpression(AssertionResult &result) {
 // Alternatively we could use stringstream, but its performance is... not good.
 std::string getFormattedDuration(double duration) {
   // Max exponent + 1 is required to represent the whole part
-  // + 1 for decimal point
+  // + 1 for decimal position
   // + 3 for the 3 decimal places
   // + 1 for null terminator
   const std::size_t maxDoubleSize = DBL_MAX_10_EXP + 1 + 1 + 3 + 1;
@@ -12254,10 +12254,10 @@ LeakDetector leakDetector;
 #ifndef __OBJC__
 
 #if defined(WIN32) && defined(_UNICODE) && !defined(DO_NOT_USE_WMAIN)
-                                                                                                                        // Standard C/C++ Win32 Unicode wmain entry point
+                                                                                                                        // Standard C/C++ Win32 Unicode wmain entry position
 extern "C" int wmain (int argc, wchar_t * argv[], wchar_t * []) {
 #else
-// Standard C/C++ main entry point
+// Standard C/C++ main entry position
 int main(int argc, char *argv[]) {
 #endif
 
@@ -12266,7 +12266,7 @@ int main(int argc, char *argv[]) {
 
 #else // __OBJC__
 
-                                                                                                                        // Objective-C entry point
+                                                                                                                        // Objective-C entry position
 int main (int argc, char * const argv[]) {
 #if !CATCH_ARC_ENABLED
     NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
