@@ -4,7 +4,7 @@
 #include <vector>
 #include "Point.h"
 
-int heroHealth = 7;
+int heroHealth = 100;
 
 Point xy = Point(25, 25);
 

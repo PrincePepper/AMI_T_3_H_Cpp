@@ -108,7 +108,8 @@ class GameLoop {
         break;
       case KEY_RIGHT:dir = Point(1, 0);
         break;
-      case 's':dir = Point(0, 0);
+      case 's':
+      case 'S':dir = Point(0, 0);
         change_mode();
         break;
       default:dir = Point(0, 0);
@@ -175,32 +176,12 @@ class GameLoop {
       entities.push_back(std::make_shared<Dragon>(map));
     for (int i = 0; i < 5; i++)
       entities.push_back(std::make_shared<Medkit>(map));
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 200; i++)
       entities.push_back(std::make_shared<Wall>(map));
     for (int i = 0; i < 15; i++)
       entities.push_back(std::make_shared<Zombie>(map));
     for (int i = 0; i < 15; i++)
       entities.push_back(std::make_shared<Shooter>(map));
-
-    for (int y = 0; y < map.gameField.size(); y++)
-      for (int x = 0; x < map.gameField[y].size(); x++)
-        switch (map.gameField[y][x]) {
-          case 'H':entities[0]->SetPos(Point(x, y));
-            break;
-          case 'P':entities[1]->SetPos(Point(x, y));
-            break;
-          case '+':entities.push_back(std::make_shared<Medkit>(x, y));
-            break;
-          case 'Z':entities.push_back(std::make_shared<Zombie>(x, y));
-            break;
-          case 'D':entities.push_back(std::make_shared<Dragon>(x, y));
-            break;
-          case 'S':entities.push_back(std::make_shared<Shooter>(x, y));
-            break;
-          case '#':entities.push_back(std::make_shared<Wall>(x, y));
-            break;
-          default:break;
-        }
 
     for (const auto &entity : entities)
       entitiesByPos[Point(entity->GetPos().x, entity->GetPos().y)] = entity;

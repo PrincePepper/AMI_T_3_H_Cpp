@@ -41,12 +41,13 @@ class Character : public Point {
   }
 
  protected:
+  //тут баг
   Point get_spawn_point(Map &map) {
-    position.x = 3 + (rand()) % (xy.x - 5);
-    position.y = 3 + (rand()) % (xy.y - 5);
+    position.x = 1 + (rand()) % (xy.x - 2);
+    position.y = 1 + (rand()) % (xy.y - 2);
     while (!map.is_empty(position)) {
-      position.x = 3 + (rand()) % (xy.x - 5);
-      position.y = 3 + (rand()) % (xy.y - 5);
+      position.x = 1 + (rand()) % (xy.x - 2);
+      position.y = 1 + (rand()) % (xy.y - 2);
     }
     map.coords.push_back(position);
     return position;
